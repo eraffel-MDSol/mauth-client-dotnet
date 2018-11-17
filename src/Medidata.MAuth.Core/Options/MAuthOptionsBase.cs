@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Medidata.MAuth.Core
 {
@@ -37,6 +39,11 @@ namespace Medidata.MAuth.Core
         /// <summary>
         /// Determines the message handler for the requests to the MAuth server.
         /// </summary>
-        public HttpMessageHandler MAuthServerHandler { get; set; } 
+        public HttpMessageHandler MAuthServerHandler { get; set; }
+
+        /// <summary>
+        /// Logger!
+        /// </summary>
+        public ILogger Logger { get; set; } = NullLogger.Instance;
     }
 }

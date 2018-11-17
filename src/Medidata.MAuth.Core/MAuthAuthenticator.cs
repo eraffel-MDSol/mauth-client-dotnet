@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Crypto;
 
 namespace Medidata.MAuth.Core
 {
     internal class MAuthAuthenticator
     {
+        private readonly ILogger logger;
         private readonly MAuthOptionsBase options;
         private MAuthRequestRetrier retrier;
 
@@ -24,6 +26,7 @@ namespace Medidata.MAuth.Core
                 throw new ArgumentNullException(nameof(options.PrivateKey));
 
             this.options = options;
+            logger = options.Logger;
 
             retrier = new MAuthRequestRetrier(options);
         }
@@ -39,20 +42,25 @@ namespace Medidata.MAuth.Core
             }
             catch (ArgumentException ex)
             {
+                logger.LogError(0, ex, "The request has invalid MAuth authentication headers.");
                 throw new AuthenticationException("The request has invalid MAuth authentication headers.", ex);
             }
             catch (RetriedRequestException ex)
             {
+                logger.LogError(0, ex, "Could not query the application information for the application from the MAuth server.");
                 throw new AuthenticationException(
                     "Could not query the application information for the application from the MAuth server.", ex);
             }
             catch (InvalidCipherTextException ex)
             {
+                logger.LogError(0, ex, "The request verification failed due to an invalid payload information.");
                 throw new AuthenticationException(
                     "The request verification failed due to an invalid payload information.", ex);
             }
             catch (Exception ex)
             {
+                logger.LogError(0, ex,
+                    "An unexpected error occured during authentication. Please see the inner exception for details.");
                 throw new AuthenticationException(
                     "An unexpected error occured during authentication. Please see the inner exception for details.",
                     ex
