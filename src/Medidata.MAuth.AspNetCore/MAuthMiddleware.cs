@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Medidata.MAuth.Core;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 
 namespace Medidata.MAuth.AspNetCore
 {
@@ -21,7 +20,7 @@ namespace Medidata.MAuth.AspNetCore
 
         public async Task Invoke(HttpContext context)
         {
-            context.Request.EnableRewind();
+            context.Request.EnableBuffering();
 
             if (!options.Bypass(context.Request) &&
                 !await context.TryAuthenticate(authenticator, options.HideExceptionsAndReturnUnauthorized))

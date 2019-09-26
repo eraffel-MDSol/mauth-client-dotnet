@@ -5,11 +5,15 @@
     <Copyright>Copyright © Medidata Solutions, Inc. 2017</Copyright>
     <AssemblyTitle>Medidata.MAuth.Tests</AssemblyTitle>
     <Authors>Medidata Solutions, Inc.</Authors>
-    <TargetFrameworks>net452;netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <AssemblyName>Medidata.MAuth.Tests</AssemblyName>
     <PackageId>Medidata.MAuth.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Mocks\Keys\ClientPrivateKey.pem" />
@@ -37,21 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Medidata.MAuth.AspNetCore\Medidata.MAuth.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Medidata.MAuth.Core\Medidata.MAuth.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <ProjectReference Include="..\..\src\Medidata.MAuth.Owin\Medidata.MAuth.Owin.csproj" />
-    <ProjectReference Include="..\..\src\Medidata.MAuth.WebApi\Medidata.MAuth.WebApi.csproj" />
-    <PackageReference Include="Microsoft.Owin.Hosting" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Owin.Testing" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Owin.Host.HttpListener" Version="3.1.0" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-    <Compile Remove="MAuthAspNetCoreTests.cs" />
-  </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Medidata.MAuth.AspNetCore\Medidata.MAuth.AspNetCore.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
@@ -61,6 +56,7 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <PackageReference Include="xunit" Version="2.3.1" />
